@@ -1,30 +1,45 @@
-<?php
-require_once("db.php");git 
-?>
-<table border=1>
-    <thead>
-        <th>Nama</th>
-        <th>Nim</th>
-        <th>Tanggal Lahir</th>
-    </thead>
-    <tbody>
-<?php
-$sql    = "SELECT * FROM siswa";
-$result = mysqli_query($conn, $sql);
+<?php 
+require_once('db.php');
+ ?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h2>Data Siswa</h2>
+	<table border="1">
+		<thead>
+			<td>NIM</td>
+			<td>Nama</td>
+			<td>Tanggal Lahir</td>
+			<td>Action</td>
+		</thead>
+		<tbody>
 
-if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while($row = mysqli_fetch_assoc($result)) {
-        echo "<tr>";
-        echo "<td>" . $row["nama"]. "</td>"; 
-        echo "<td>" . $row["nim"]. "</td>";
-        echo "<td>" . $row["tgl_lahir"]. "</td>";
-        echo "</tr>";
-    }
+<?php 
+$sql = "SELECT * FROM siswa";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_num_rows($result);
+
+if ($row > 0) {
+	while ($row = mysqli_fetch_assoc($result)) {
+		$id = $row['nim'];
+		echo "<tr>";
+		echo "<td>".$row['nim']."</td>";
+		echo "<td>".$row['nama']."</td>";
+		echo "<td>".$row['tgl_lahir']."</td>";
+		echo "<td>" . "<a href='form-update.php?nim=$id'>Edit</a> | <a href='delete.php?nim=$id'>Hapus</a>" . "</td>";
+		echo "</tr>";
+	}
 } else {
-    echo "0 results";
+	echo "0 Result";
 }
-mysqli_close($conn);
-?> 
-    </tbody>
-</table>
+
+echo "<a href = form.php>Input Kembali</a>";
+echo "<br>";
+ ?>
+ 		</tbody>
+ 	</table>
+ </body>
+ </html>
